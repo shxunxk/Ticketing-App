@@ -1,24 +1,19 @@
 import { faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const DeleteBlock = ({ id }) => {
+  const router = useRouter();
 
-  const deleteBlock = async (id) => {
-    try {
+  const deleteBlock = async () => {
       const res = await fetch(`/api/Tickets/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (!res.ok) {
-        throw new Error('Failed to delete ticket');
+        method: "DELETE",
+      }); 
+      if (res.ok) {
+        router.refresh();
       }
 
-      const data = await res.json();
-    } catch (error) {
-    }
   };
 
   return (
@@ -26,7 +21,7 @@ const DeleteBlock = ({ id }) => {
       <FontAwesomeIcon
         icon={faX}
         className='text-red-400 cursor-pointer'
-        onClick={() => deleteBlock(id)}
+        onClick={deleteBlock}
       />
     </div>
   );

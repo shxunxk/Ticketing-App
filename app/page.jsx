@@ -21,8 +21,7 @@ const Dashboard = () => {
         }
 
         const data = await res.json();
-        console.log(data)
-        setTickets(data);
+        setTickets(data.tickets);
         setLoading(false);
       } catch (error) {
         setError(error.message);
@@ -41,12 +40,24 @@ const Dashboard = () => {
     return <div>Error: {error}</div>;
   }
 
+  const categ = [...new Set(tickets?.map((item)=>(item.category)))]
+
   return (
     <div className='p-5'>
-      <div className='lg:grid grid-cols-2 xl:grid-cols-4 gap-4'>
-        {tickets.tickets.map((ticket, index) => (
-          <TicketCard key={index} ticket={ticket} />
-        ))}
+      <div className=''>
+        {categ.map((cat, index)=>{
+          return(
+            <div key={index} className='flex flex-col'>
+              <h2>{cat}</h2>
+              <div className='lg:grid grid-cols-2 xl:grid-cols-4 gap-4'>
+                {tickets.filter((ticket) => ticket.category === cat).map((ticket, index) => {
+                  return(
+                  <TicketCard key={index} ticket={ticket} />
+                )})}
+            </div>
+            </div>
+          )
+        })}
       </div>
     </div>
   );

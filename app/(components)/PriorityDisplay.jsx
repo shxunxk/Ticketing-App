@@ -8,7 +8,12 @@ const PriorityDisplay = ({ priority }) => {
           <FontAwesomeIcon key={index} icon={faFire} className='text-red-400' />
     </div>
   ));
-  return <div className='flex'>{fireIcons}</div>;
+  const notInc = Array.from({ length: 5 - priority }, (_, index) => (
+    <div key={index} className="pr-1">
+          <FontAwesomeIcon key={index} icon={faFire} className='text-gray-400' />
+    </div>
+  ));
+  return <div className='flex'>{fireIcons}{notInc}</div>;
 };
 
 export default PriorityDisplay;
